@@ -1,0 +1,73 @@
+.article {
+  position: relative;
+  padding: 15px 240px 25px 20px;
+  width: 680px;
+  height: auto;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  margin-top: 26px;
+}
+.title__flex {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.article__title {
+  color: #1890ff;
+  font-size: 20px;
+  line-height: 28px;
+  margin-right: 13px;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: all 0.15s linear;
+  text-decoration: none;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.article__title:hover {
+  color: #1890ff;
+  opacity: 1;
+}
+.heart__count {
+  font-size: 12px;
+  line-height: 22px;
+  margin-left: 5px;
+  color: #000000bf;
+}
+.tag {
+  margin-bottom: 6px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+}
+.profile {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.article__subtitle {
+  font-size: 12px;
+  line-height: 22px;
+  color: #000000bf;
+  overflow-wrap: break-word;
+}
+.name {
+  color: #000000d9;
+  font-size: 18px;
+}
+.date {
+  color: #00000080;
+  font-size: 12px;
+}
+.avatar {
+  margin-left: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  border: solid 1px #00000050;
+}
