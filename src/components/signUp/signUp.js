@@ -32,6 +32,7 @@ function SignUp() {
           const token = g.user.token;
           setTaken([]);
           dispatch(userReg({ username, email, password, token }));
+          dispatch(isLoggedIn(true));
           localStorage.setItem('token', token);
         })
         .catch((g) => setTaken([g.response.data.errors.username, g.response.data.errors.email]));
@@ -40,7 +41,6 @@ function SignUp() {
   const password = watch('password');
   useEffect(() => {
     if (logged) {
-      dispatch(isLoggedIn(true));
       history(articlesLink);
     }
   }, [logged]);

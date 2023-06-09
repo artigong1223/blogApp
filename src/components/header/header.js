@@ -3,7 +3,7 @@ import { NavLink, Link, Outlet, useParams, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 
 import ArticleStoreService from '../../service/articleList-api';
-import { userReg, isLoggedIn, loadArticle } from '../../redux/slice';
+import { userReg, isLoggedIn, loadArticle, load } from '../../redux/slice';
 
 import classes from './header.module.scss';
 
@@ -20,7 +20,7 @@ export default function Header() {
   const profileLink = 'profile';
   const newArticleLink = '/new-article';
   useEffect(() => {
-    if (logged) {
+    if (localStorage.getItem('token')) {
       api
         .getUserReg()
         .then((g) => {
@@ -32,6 +32,7 @@ export default function Header() {
     !slug || location.pathname === `${articlesLink}/${slug}/edit` ? dispatch(loadArticle(true)) : null;
   }, [slug, location]);
   const logOutHandler = () => {
+    dispatch(load(true));
     dispatch(isLoggedIn(false));
     localStorage.clear();
   };

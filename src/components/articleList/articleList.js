@@ -27,7 +27,7 @@ export default function ArticleList() {
       .catch((e) => {
         dispatch(errorsLoad(e.message));
       });
-  }, [page]);
+  }, [page, loading]);
   const onPagination = (page) => {
     dispatch(articlesPage((page - 1) * 20));
   };
