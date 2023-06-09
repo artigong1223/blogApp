@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment/moment';
 
 import ArticleStoreService from '../../service/articleList-api';
-import { loadArticle, errorsArticle } from '../../redux/slice';
+import { loadArticle, errorsArticle, load } from '../../redux/slice';
 
 import classes from './articleOne.module.scss';
 
@@ -21,6 +21,8 @@ export default function ArticleOne() {
   const user = useSelector((state) => state.slice.user);
   const error = useSelector((state) => state.slice.errorArticle);
   const articleLoading = useSelector((state) => state.slice.loadingArticle);
+  const linkArticles = '/articles';
+  const linkEdit = 'edit';
   const checkImgSrc = (src) => {
     const img = new Image();
     img.onload = function () {
@@ -67,7 +69,7 @@ export default function ArticleOne() {
         <div className={classes.article__one}>
           <div className={classes.article__one_card}>
             <div className={classes.title__flex}>
-              <Link to="/articles" className={classes.article__title}>
+              <Link to={linkArticles} className={classes.article__title}>
                 {item.title}
               </Link>
               <HeartFilled
@@ -107,7 +109,10 @@ export default function ArticleOne() {
                   onConfirm={() =>
                     api
                       .deleteArticleSlug(slug)
-                      .then((g) => (g.status === 204 ? history('/') : null))
+                      .then((g) => {
+                        dispatch(load(true));
+                        g.status === 204 ? history(linkArticles) : null;
+                      })
                       .catch((e) => console.log(e))
                   }
                 >
@@ -115,7 +120,7 @@ export default function ArticleOne() {
                     Delete
                   </Button>
                 </Popconfirm>
-                <Link to="edit">
+                <Link to={linkEdit}>
                   <Button className={classes.article__btn_edit} danger>
                     Edit
                   </Button>

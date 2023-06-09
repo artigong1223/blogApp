@@ -2,15 +2,21 @@ import React, { useEffect } from 'react';
 import { Button } from 'antd';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ArticleStoreService from '../../service/articleList-api';
+import { load } from '../../redux/slice';
 
 import classes from './createArticle.module.scss';
 
 export default function CreateArticle() {
+  const dispatch = useDispatch();
   const history = useNavigate();
+  const logged = useSelector((state) => state.slice.logged);
+  const articlesLink = '/articles';
+  const signInLink = '/sign-in';
   useEffect(() => {
-    !localStorage.getItem('token') ? history('/sign-in') : null;
+    !logged ? history(signInLink) : null;
   }, []);
   const api = new ArticleStoreService();
   const {
@@ -31,7 +37,10 @@ export default function CreateArticle() {
         data.text,
         data.tags.map((g) => g.tag)
       )
-      .then((g) => (g.status === 200 ? history('/') : null))
+      .then((g) => {
+        dispatch(load(true));
+        g.status === 200 ? history(articlesLink) : null;
+      })
       .catch((e) => console.log(e));
   };
   return (

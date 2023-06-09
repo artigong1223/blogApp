@@ -12,7 +12,10 @@ export default function SignIn() {
   const history = useNavigate();
   const dispatch = useDispatch();
   const inv = useSelector((state) => state.slice.inv);
+  const logged = useSelector((state) => state.slice.logged);
   const api = new ArticleStoreService();
+  const signUpLink = '/sign-up';
+  const articlesLink = '/articles';
   const {
     handleSubmit,
     register,
@@ -22,15 +25,16 @@ export default function SignIn() {
     const { email, password } = data;
     api
       .getUserLogin(email, password)
-      .then(() => {
+      .then((g) => {
         dispatch(invalid([]));
+        localStorage.setItem('token', g.token);
+        dispatch(isLoggedIn(true));
       })
       .catch((g) => dispatch(invalid(g.response.data.errors)));
   };
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      dispatch(isLoggedIn(true));
-      history('/');
+    if (logged) {
+      history(articlesLink);
     }
   });
   return (
@@ -74,7 +78,7 @@ export default function SignIn() {
           <input className={classes.btn} type="submit" />
           <div className={classes.sign__desc}>
             Don’t have an account?{' '}
-            <Link to="/sign-up" className={classes.sign__link}>
+            <Link to={signUpLink} className={classes.sign__link}>
               Sign Up
             </Link>
             .

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pagination, Spin, Alert } from 'antd';
+import moment from 'moment';
 
 import { articlesLoaded, articlesPage, load, errorsLoad } from '../../redux/slice';
 import Article from '../article/article';
@@ -37,8 +38,8 @@ export default function ArticleList() {
       </Spin>
     ) : (
       <div className={classes.article_list}>
-        {articles.map((g, i) => {
-          return <Article item={g} key={i} />;
+        {articles.map((g) => {
+          return <Article item={g} key={moment(g.createdAt).format('MMDYYYYhmmss')} />;
         })}
         <Pagination
           className={classes.pagination}

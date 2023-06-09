@@ -14,7 +14,9 @@ function SignUp() {
   const history = useNavigate();
   const dispatch = useDispatch();
   const api = new ArticleStoreService();
-  const newUserToken = useSelector((g) => g.slice.user.token);
+  const logged = useSelector((g) => g.slice.logged);
+  const signInLink = '/sign-in';
+  const articlesLink = '/articles';
   const {
     handleSubmit,
     register,
@@ -37,11 +39,11 @@ function SignUp() {
   };
   const password = watch('password');
   useEffect(() => {
-    if (newUserToken === localStorage.getItem('token')) {
+    if (logged) {
       dispatch(isLoggedIn(true));
-      history('/');
+      history(articlesLink);
     }
-  }, [newUserToken]);
+  }, [logged]);
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)} className={classes.sign__flex}>
@@ -129,7 +131,7 @@ function SignUp() {
           <input className={classes.btn} value="Create" type="submit" />
           <div className={classes.sign__desc}>
             Already have an account?{' '}
-            <Link to="/sign-in" className={classes.sign__link}>
+            <Link to={signInLink} className={classes.sign__link}>
               Sign In
             </Link>
             .

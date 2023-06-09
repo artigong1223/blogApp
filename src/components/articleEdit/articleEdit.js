@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { Button } from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import ArticleStoreService from '../../service/articleList-api';
 
@@ -9,8 +10,11 @@ import classes from './articleEdit.module.scss';
 
 export default function ArticleEdit() {
   const history = useNavigate();
+  const logged = useSelector((state) => state.slice.logged);
+  const articlesLink = '/articles';
+  const signInLink = '/sign-in';
   useEffect(() => {
-    !localStorage.getItem('token') ? history('/sign-in') : null;
+    !logged ? history(signInLink) : null;
   }, []);
   const api = new ArticleStoreService();
   const { slug } = useParams();
@@ -33,7 +37,7 @@ export default function ArticleEdit() {
         data.text,
         data.tags.map((g) => g.tag)
       )
-      .then((g) => (g.status === 200 ? history('/') : null))
+      .then((g) => (g.status === 200 ? history(articlesLink) : null))
       .catch((e) => console.log(e));
   };
   return (

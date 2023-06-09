@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 export default class ArticleStoreService {
+  url = 'https://blog.kata.academy/api';
   getArticles = async (page) => {
-    const response = await axios.get(`https://blog.kata.academy/api/articles?offset=${page}`, {
+    const response = await axios.get(`${this.url}/articles?offset=${page}`, {
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
@@ -12,7 +13,7 @@ export default class ArticleStoreService {
   };
   postArticles = async (title, description, body, tags) => {
     const response = await axios.post(
-      'https://blog.kata.academy/api/articles',
+      `${this.url}/articles`,
       {
         article: {
           title: title,
@@ -31,7 +32,7 @@ export default class ArticleStoreService {
     return response;
   };
   getArticleSlug = async (slug) => {
-    const response = await axios.get(`https://blog.kata.academy/api/articles/${slug}`, {
+    const response = await axios.get(`${this.url}/articles/${slug}`, {
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
@@ -41,7 +42,7 @@ export default class ArticleStoreService {
   };
   postArticleSlug = async (slug, title, description, body, tags) => {
     const response = await axios.put(
-      `https://blog.kata.academy/api/articles/${slug}`,
+      `${this.url}/articles/${slug}`,
       {
         article: {
           title: title,
@@ -60,7 +61,7 @@ export default class ArticleStoreService {
     return response;
   };
   deleteArticleSlug = async (slug) => {
-    const response = await axios.delete(`https://blog.kata.academy/api/articles/${slug}`, {
+    const response = await axios.delete(`${this.url}/articles/${slug}`, {
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
@@ -70,7 +71,7 @@ export default class ArticleStoreService {
   };
   postUserReg = async (username, email, password) => {
     const response = await axios.post(
-      'https://blog.kata.academy/api/users',
+      `${this.url}/users`,
       {
         user: {
           username: username,
@@ -87,7 +88,7 @@ export default class ArticleStoreService {
     return response.data;
   };
   getUserReg = async () => {
-    const response = await axios.get('https://blog.kata.academy/api/user', {
+    const response = await axios.get(`${this.url}/user`, {
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
@@ -97,7 +98,7 @@ export default class ArticleStoreService {
   };
   getUserLogin = async (email, password) => {
     const response = await axios.post(
-      'https://blog.kata.academy/api/users/login',
+      `${this.url}/users/login`,
       {
         user: {
           email: email,
@@ -110,12 +111,11 @@ export default class ArticleStoreService {
         },
       }
     );
-    localStorage.setItem('token', response.data.user.token);
     return response.data.user;
   };
   putUserUpdate = async (username, email, password, image) => {
     const response = await axios.put(
-      'https://blog.kata.academy/api/user',
+      `${this.url}/user`,
       {
         user: {
           username: username,
@@ -135,7 +135,7 @@ export default class ArticleStoreService {
   };
   postFavoritesReg = async (slug) => {
     const response = await axios.post(
-      `https://blog.kata.academy/api/articles/${slug}/favorite`,
+      `${this.url}/articles/${slug}/favorite`,
       {
         body: '',
       },
@@ -150,7 +150,7 @@ export default class ArticleStoreService {
     return response.data.article;
   };
   deleteFavoritesReg = async (slug) => {
-    const response = await axios.delete(`https://blog.kata.academy/api/articles/${slug}/favorite`, {
+    const response = await axios.delete(`${this.url}/articles/${slug}/favorite`, {
       headers: {
         Authorization: `Token ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',

@@ -3,6 +3,7 @@ import { Tag } from 'antd';
 import { HeartFilled } from '@ant-design/icons';
 import moment from 'moment/moment';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import ArticleStoreService from '../../service/articleList-api';
 
@@ -10,6 +11,7 @@ import classes from './article.module.scss';
 
 export default function Article(props) {
   const api = new ArticleStoreService();
+  const logged = useSelector((state) => state.slice.logged);
   const [valid, setValid] = useState('');
   const [count, setCount] = useState(props.item.favoritesCount);
   const [countBool, setCountBool] = useState(props.item.favorited);
@@ -24,7 +26,7 @@ export default function Article(props) {
     img.src = src;
   };
   const favoritesReg = () => {
-    localStorage.getItem('token')
+    logged
       ? countBool
         ? api
             .deleteFavoritesReg(props.item.slug)

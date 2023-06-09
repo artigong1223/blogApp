@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ArticleStoreService from '../../service/articleList-api';
 import { userReg } from '../../redux/slice';
@@ -11,8 +11,11 @@ import classes from './profile.module.scss';
 export default function Profile() {
   const [taken, setTaken] = useState([]);
   const [image, setImage] = useState('');
+  const logged = useSelector((state) => state.slice.logged);
   const dispatch = useDispatch();
   const history = useNavigate();
+  const articlesLink = '/articles';
+  const signInLink = '/sign-in';
   const {
     handleSubmit,
     register,
@@ -31,6 +34,9 @@ export default function Profile() {
     };
     img.src = src;
   };
+  useEffect(() => {
+    !logged ? history(signInLink) : null;
+  }, []);
   checkImgSrc(url);
   const onSubmit = (data) => {
     const { username, email, password, url } = data;
@@ -42,7 +48,7 @@ export default function Profile() {
           setTaken([]);
           dispatch(userReg({ username, email, password, token, url }));
           localStorage.setItem('token', token);
-          history('/');
+          history(articlesLink);
         })
         .catch((g) => {
           setTaken([g.response.data.errors.username, g.response.data.errors.email]);

@@ -13,9 +13,14 @@ export default function Header() {
   const dispatch = useDispatch();
   const api = new ArticleStoreService();
   const user = useSelector((g) => g.slice.user);
-  const log = useSelector((g) => g.slice.logged);
+  const logged = useSelector((g) => g.slice.logged);
+  const articlesLink = '/articles';
+  const signInLink = '/sign-in';
+  const signUpLink = '/sign-up';
+  const profileLink = 'profile';
+  const newArticleLink = '/new-article';
   useEffect(() => {
-    if (localStorage.getItem('token')) {
+    if (logged) {
       api
         .getUserReg()
         .then((g) => {
@@ -24,7 +29,7 @@ export default function Header() {
         .catch((e) => console.log(e));
       dispatch(isLoggedIn(true));
     }
-    !slug || location.pathname === `/articles/${slug}/edit` ? dispatch(loadArticle(true)) : null;
+    !slug || location.pathname === `${articlesLink}/${slug}/edit` ? dispatch(loadArticle(true)) : null;
   }, [slug, location]);
   const logOutHandler = () => {
     dispatch(isLoggedIn(false));
@@ -33,15 +38,15 @@ export default function Header() {
   return (
     <>
       <header className={classes.header}>
-        <Link to="/articles" className={classes.title + ' ' + classes.logo}>
+        <Link to={articlesLink} className={classes.title + ' ' + classes.logo}>
           RealWorld Blog
         </Link>
-        {log ? (
+        {logged ? (
           <div className={classes.flex}>
-            <NavLink to="/new-article">
+            <NavLink to={newArticleLink}>
               <button className={classes.sign}>Create article</button>
             </NavLink>
-            <NavLink style={{ textDecoration: 'none' }} to="profile">
+            <NavLink style={{ textDecoration: 'none' }} to={profileLink}>
               <div style={{ marginRight: 30 }} className={classes.flex}>
                 <div className={classes.name}>{user.username}</div>
                 <img
@@ -58,10 +63,10 @@ export default function Header() {
           </div>
         ) : (
           <div className={classes.sign__group}>
-            <NavLink to="/sign-in">
+            <NavLink to={signInLink}>
               <button className={classes.sign}>Sign In</button>
             </NavLink>
-            <NavLink to="/sign-up">
+            <NavLink to={signUpLink}>
               <button className={classes.sign}>Sign Up</button>
             </NavLink>
           </div>
